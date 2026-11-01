@@ -1,0 +1,241 @@
+{
+  "app": {
+    "title": "Rights & Entitlements Checker",
+    "tagline": "Find government schemes your household may qualify for."
+  },
+  "common": {
+    "yes": "Yes",
+    "no": "No",
+    "dontKnow": "I don't know",
+    "continue": "Continue",
+    "back": "Back",
+    "retry": "Try again",
+    "loading": "Loading…",
+    "error": "Something went wrong.",
+    "skip": "Skip to content",
+    "disclaimer": "Likely means you may qualify. The government office makes the final decision.",
+    "print": "Print results",
+    "home": "Start over",
+    "none": "Nothing to show yet."
+  },
+  "nav": {
+    "operator": "CSC staff login",
+    "admin": "Admin",
+    "logout": "Log out",
+    "saved": "Saved results",
+    "assisting": "Assisted mode: {{cscId}}"
+  },
+  "language": {
+    "title": "Choose your language",
+    "hi": "हिन्दी",
+    "en": "English",
+    "resume": "Continue where you stopped",
+    "hiHint": "प्रश्न और जानकारी हिन्दी में",
+    "enHint": "Questions and explanations in English"
+  },
+  "consent": {
+    "title": "Before we start",
+    "intro": "We ask a few questions about your household to find schemes that may apply.",
+    "point1": "We do not ask for your name, phone number or Aadhaar number.",
+    "point2": "You can answer \"I don't know\" to any question.",
+    "point3": "You can erase your answers at any time from Saved results.",
+    "agree": "I agree",
+    "exit": "No thanks",
+    "declined": "No problem. Nothing was saved.",
+    "creating": "Starting your session…",
+    "whatTitle": "What happens next"
+  },
+  "household": {
+    "title": "Who lives in your household?",
+    "intro": "Add each person. Pick an occupation and we will ask only the questions that matter.",
+    "relation": "Relation",
+    "age": "Age",
+    "sex": "Sex",
+    "add": "Add member",
+    "remove": "Remove",
+    "ageError": "Enter an age between 0 and 120.",
+    "empty": "No one added yet.",
+    "member": "{{relation}}, age {{age}}",
+    "count_one": "{{count}} person added",
+    "count_other": "{{count}} people added"
+  },
+  "relations": {
+    "self": "Self",
+    "spouse": "Spouse",
+    "mother": "Mother",
+    "father": "Father",
+    "son": "Son",
+    "daughter": "Daughter",
+    "other": "Other"
+  },
+  "sex": {
+    "female": "Female",
+    "male": "Male",
+    "other": "Other"
+  },
+  "questions": {
+    "land": {
+      "text": "Does your household own farmland?",
+      "help": "Land in the name of any family member counts."
+    },
+    "tax": {
+      "text": "Did anyone in your household pay income tax last year?",
+      "help": "Think of the last assessment year."
+    },
+    "pension": {
+      "text": "Does anyone get a pension of Rs 10,000 or more every month?",
+      "help": "Add up all pensions of one person."
+    },
+    "bpl": {
+      "text": "Does your household have a BPL (below poverty line) card or status?",
+      "help": "Your state office confirms this later."
+    }
+  },
+  "question": {
+    "progress": "Question {{n}} of {{total}}",
+    "listen": "Listen",
+    "speak": "Speak your answer",
+    "stop": "Stop recording",
+    "processing": "Understanding your answer…",
+    "voiceError": "Voice did not work. Please tap an answer.",
+    "listenError": "Audio is not available. Please read the question.",
+    "back": "Previous question",
+    "editHousehold": "Change household",
+    "saving": "Saving your answer…",
+    "or": "or answer by voice"
+  },
+  "offline": {
+    "banner": "You are offline. You can keep tapping answers; they will be sent when you are back online.",
+    "pending_one": "{{count}} answer is waiting to be sent.",
+    "pending_other": "{{count}} answers are waiting to be sent.",
+    "lastEvaluated": "Results last evaluated on {{date}}. Check again when you are online, because rules may have changed."
+  },
+  "results": {
+    "title": "Your shortlist",
+    "empty": "No schemes found for this household yet.",
+    "details": "See details",
+    "summary": "{{likely}} likely · {{needs}} need checking · {{not}} not eligible",
+    "intro": "Based on your answers. Open a scheme to see why, what to check and which documents to carry."
+  },
+  "status": {
+    "LIKELY": "Likely",
+    "NEEDS_VERIFICATION": "Needs verification",
+    "NOT_ELIGIBLE": "Not eligible"
+  },
+  "card": {
+    "needs": "Still to check: {{facts}}",
+    "forMember": "For: {{relation}}",
+    "forHousehold": "For: whole household",
+    "checksLeft": "To check: {{facts}}"
+  },
+  "facts": {
+    "household": {
+      "owns_cultivable_land": "Household owns farmland",
+      "bpl_status": "BPL status"
+    },
+    "any_member": {
+      "paid_income_tax_last_ay": "Anyone paid income tax in the last assessment year",
+      "monthly_pension": "Anyone gets a pension of Rs 10,000 or more per month"
+    },
+    "member": {
+      "age": "Age",
+      "pension_category": "Pension staff category (MTS, Class IV or Group D)"
+    }
+  },
+  "documents": {
+    "Aadhaar": "Aadhaar",
+    "Aadhaar-seeded bank account": "Aadhaar-seeded bank account",
+    "Land record details": "Land record details"
+  },
+  "kind": {
+    "mandatory": "Must have",
+    "conditional": "Only if it applies",
+    "optional": "Nice to have"
+  },
+  "detail": {
+    "why": "Why this result",
+    "explain": "Explain in simple words",
+    "explaining": "Writing explanation…",
+    "explainError": "Explanation is not available now. The reasons above are still correct.",
+    "benefit": "Benefit",
+    "toVerify": "To verify",
+    "nothingToVerify": "Nothing left to verify.",
+    "documents": "Documents",
+    "pendingState": "The document list depends on your State and is still being verified. Ask at your Common Service Centre.",
+    "source": "Source",
+    "section": "Section {{section}}",
+    "verifiedOn": "Verified on {{date}}",
+    "ruleVersion": "Rule version {{version}}",
+    "nextStep": "Next step",
+    "officialLink": "Open official website",
+    "offlineRoute": "Offline: {{route}}",
+    "checklist": "Open document checklist",
+    "notFound": "This result was not found. Go back to your shortlist."
+  },
+  "checklist": {
+    "title": "Documents for {{scheme}}",
+    "progress": "{{done}} of {{total}} ready",
+    "empty": "No document list is available for this scheme yet."
+  },
+  "saved": {
+    "title": "Saved results",
+    "code": "Your code",
+    "codeHelp": "Write this code down. Use it later to see your results again.",
+    "lastEvaluated": "Last evaluated: {{date}}",
+    "never": "Not evaluated yet",
+    "recheck": "Check again",
+    "loadTitle": "Open results with a code",
+    "codeLabel": "Code",
+    "load": "Open",
+    "view": "View results",
+    "erase": "Erase my data",
+    "erased": "Your data was erased.",
+    "eraseError": "Could not erase now. Connect to the internet and try again.",
+    "recheckHelp": "Scheme rules change from time to time. Check again before you visit the office."
+  },
+  "operator": {
+    "title": "CSC staff login",
+    "cscId": "Staff e-mail (CSC ID)",
+    "password": "Password",
+    "login": "Log in",
+    "error": "Login failed. Check your e-mail and password."
+  },
+  "admin": {
+    "title": "Rules admin",
+    "schemes": "Scheme rule versions",
+    "queue": "Verification queue",
+    "version": "Version",
+    "status": "Status",
+    "verifiedOn": "Verified on",
+    "noQueue": "No versions are waiting for verification.",
+    "forbidden": "Only admins can open this page.",
+    "none": "No version"
+  },
+  "errorBoundary": {
+    "title": "Something broke",
+    "reload": "Reload the app"
+  },
+  "schemes": {
+    "PM-KISAN": "Income support for farmer families",
+    "PMMVY": "Maternity benefit for pregnant and nursing mothers",
+    "IGNOAPS": "Pension for older people from poor households",
+    "IGNWPS": "Pension for widows from poor households",
+    "IGNDPS": "Pension for persons with disabilities from poor households",
+    "NFBS": "One-time help after the death of the main earner"
+  },
+  "home": {
+    "headline": "Find the government benefits you may be entitled to.",
+    "sub": "Answer a few simple questions to discover relevant schemes and prepare your documents.",
+    "start": "Choose a language to check your eligibility",
+    "privacy": "No Aadhaar number, name or phone number needed. You can erase your answers at any time.",
+    "steps": "About 2 minutes · 4 questions · works offline"
+  },
+  "form": {
+    "person": "Person {{n}}",
+    "occupation": "Occupation",
+    "choose": "Choose…",
+    "householdTitle": "About your household",
+    "skipNote": "Extra questions appear based on what you choose above. You can leave any of them as \"I don't know\".",
+    "seeResults": "See my schemes"
+  }
+}

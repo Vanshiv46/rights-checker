@@ -1,0 +1,168 @@
+# Local stack: MySQL 8.4, Redis and all services. Only the gateway is published on the host.
+# Each data-owning service runs its Sequelize CLI migrations and seeders on start.
+name: rights-entitlements
+
+x-node-env: &node-env
+  NODE_ENV: production
+  LOG_LEVEL: info
+  SERVICE_TOKEN: ${SERVICE_TOKEN:-dev-internal-service-token-change-me}
+  REDIS_URL: redis://redis:6379
+
+x-db-env: &db-env
+  DB_HOST: mysql
+  DB_PORT: '3306'
+  DB_USER: rec
+  DB_PASSWORD: ${DB_PASSWORD:-rec-dev-password}
+  DB_POOL_MAX: '10'
+
+x-migrate-and-start:
+  &migrate-and-start ['sh', '-c', 'npm run db:migrate && npm run db:seed && node src/server.js']
+
+x-healthcheck: &healthcheck
+  interval: 5s
+  timeout: 3s
+  retries: 30
+
+services:
+  mysql:
+    image: mysql:8.4
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_0900_ai_ci']
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root-dev-password}
+      MYSQL_USER: rec
+      MYSQL_PASSWORD: ${DB_PASSWORD:-rec-dev-password}
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./docker/mysql-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent']
+      <<: *healthcheck
+
+  redis:
+    image: redis:7.4-alpine
+    command: ['redis-server', '--appendonly', 'yes']
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      <<: *healthcheck
+
+  scheme-service:
+    build: { context: ., dockerfile: services/scheme-service/Dockerfile }
+    command: *migrate-and-start
+    environment:
+      <<: [*node-env, *db-env]
+      PORT: '4003'
+      DB_NAME: scheme_db
+    depends_on:
+      mysql: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:4003/ready').then((r) => process.exit(r.ok ? 0 : 1), () => process.exit(1))",
+        ]
+      <<: *healthcheck
+
+  session-service:
+    build: { context: ., dockerfile: services/session-service/Dockerfile }
+    command: *migrate-and-start
+    environment:
+      <<: [*node-env, *db-env]
+      PORT: '4001'
+      DB_NAME: session_db
+      SESSION_TTL_HOURS: '24'
+    depends_on:
+      mysql: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:4001/ready').then((r) => process.exit(r.ok ? 0 : 1), () => process.exit(1))",
+        ]
+      <<: *healthcheck
+
+  eligibility-service:
+    build: { context: ., dockerfile: services/eligibility-service/Dockerfile }
+    command: *migrate-and-start
+    environment:
+      <<: [*node-env, *db-env]
+      PORT: '4002'
+      DB_NAME: eligibility_db
+      SCHEME_SERVICE_URL: http://scheme-service:4003
+      SESSION_SERVICE_URL: http://session-service:4001
+    depends_on:
+      scheme-service: { condition: service_healthy }
+      session-service: { condition: service_healthy }
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:4002/ready').then((r) => process.exit(r.ok ? 0 : 1), () => process.exit(1))",
+        ]
+      <<: *healthcheck
+
+  ai-service:
+    build: { context: ., dockerfile: services/ai-service/Dockerfile }
+    environment:
+      <<: *node-env
+      PORT: '4004'
+      ELIGIBILITY_SERVICE_URL: http://eligibility-service:4002
+      SCHEME_SERVICE_URL: http://scheme-service:4003
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      GROQ_MODEL: ${GROQ_MODEL:-llama-3.3-70b-versatile}
+    depends_on:
+      eligibility-service: { condition: service_healthy }
+
+  voice-service:
+    build: { context: ., dockerfile: services/voice-service/Dockerfile }
+    environment:
+      <<: *node-env
+      PORT: '4005'
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+
+  ocr-service:
+    build: { context: ., dockerfile: services/ocr-service/Dockerfile }
+    environment:
+      <<: *node-env
+      PORT: '4006'
+    depends_on:
+      redis: { condition: service_healthy }
+
+  api-gateway:
+    build: { context: ., dockerfile: services/api-gateway/Dockerfile }
+    command: *migrate-and-start
+    ports:
+      - '4000:4000'
+    environment:
+      <<: [*node-env, *db-env]
+      PORT: '4000'
+      DB_NAME: auth_db
+      JWT_SECRET: ${JWT_SECRET:-dev-only-jwt-secret-change-me-0123456789}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173,http://localhost:4173}
+      SESSION_SERVICE_URL: http://session-service:4001
+      ELIGIBILITY_SERVICE_URL: http://eligibility-service:4002
+      SCHEME_SERVICE_URL: http://scheme-service:4003
+      AI_SERVICE_URL: http://ai-service:4004
+      VOICE_SERVICE_URL: http://voice-service:4005
+      OCR_SERVICE_URL: http://ocr-service:4006
+      SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL:-admin@example.org}
+      SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD:-change-me-admin-password}
+    depends_on:
+      mysql: { condition: service_healthy }
+      eligibility-service: { condition: service_healthy }
+      ai-service: { condition: service_started }
+      voice-service: { condition: service_started }
+      ocr-service: { condition: service_started }
+
+volumes:
+  mysql-data:
+  redis-data:

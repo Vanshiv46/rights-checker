@@ -1,0 +1,22 @@
+{
+  "name": "@rec/voice-service",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "lint": "eslint . --max-warnings 0",
+    "test": "vitest run --coverage",
+    "check": "npm run lint && npm run test",
+    "db:migrate": "node -e \"process.stdout.write('voice-service has no database\\n')\"",
+    "db:seed": "node -e \"process.stdout.write('voice-service has no database\\n')\""
+  },
+  "dependencies": {
+    "@rec/common": "*",
+    "express": "^5.1.0",
+    "opossum": "^9.0.0",
+    "zod": "^4.1.12"
+  },
+  "main": "src/server.js"
+}

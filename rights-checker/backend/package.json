@@ -1,0 +1,43 @@
+{
+  "name": "rights-entitlements-backend",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Rights & Entitlements Checker — microservice backend in Node.js + Express (JavaScript, ES modules)",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "workspaces": [
+    "packages/common",
+    "services/api-gateway",
+    "services/session-service",
+    "services/eligibility-service",
+    "services/scheme-service",
+    "services/ai-service",
+    "services/voice-service",
+    "services/ocr-service"
+  ],
+  "scripts": {
+    "lint": "eslint . --max-warnings 0 && prettier --check .",
+    "format": "prettier --write .",
+    "test": "npm run test --workspaces --if-present",
+    "check": "npm run lint && npm run test",
+    "db:migrate": "npm run db:migrate --workspaces --if-present",
+    "db:seed": "npm run db:seed --workspaces --if-present",
+    "smoke": "node scripts/smoke-test.mjs",
+    "db:create": "node scripts/create-databases.mjs",
+    "setup:local": "node scripts/setup-local.mjs",
+    "start:all": "node scripts/start-all.mjs",
+    "start:hosted": "node scripts/start-hosted.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.0",
+    "@vitest/coverage-v8": "^5.0.5",
+    "eslint": "^9.39.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^16.4.0",
+    "prettier": "^3.6.2",
+    "supertest": "^7.1.4",
+    "vitest": "^5.0.5"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "@rec/ocr-service",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "lint": "eslint . --max-warnings 0",
+    "test": "vitest run --coverage",
+    "check": "npm run lint && npm run test",
+    "db:migrate": "node -e \"process.stdout.write('ocr-service has no database\\n')\"",
+    "db:seed": "node -e \"process.stdout.write('ocr-service has no database\\n')\""
+  },
+  "dependencies": {
+    "@rec/common": "*",
+    "bullmq": "^5.63.0",
+    "express": "^5.1.0",
+    "ioredis": "^5.8.2",
+    "zod": "^4.1.12"
+  },
+  "main": "src/server.js"
+}

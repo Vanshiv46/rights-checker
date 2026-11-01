@@ -1,0 +1,284 @@
+{
+  "schemes": [
+    {
+      "id": "f0ae5d03-cdd6-4e74-a6e6-c9fc7b596032",
+      "code": "PM-KISAN",
+      "name": "Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)",
+      "description": "Income support for landholding farmer families.",
+      "versions": [
+        {
+          "id": "059dba6b-044e-4e13-a0da-1046c292d64e",
+          "version": 1,
+          "status": "published",
+          "verifiedOn": "2026-11-01",
+          "verifiedBy": "seed-data",
+          "notes": "Seeded from the project brief. Re-verify against the official Operational Guidelines before launch.",
+          "rule": {
+            "requirements": [
+              {
+                "id": "pmkisan.land",
+                "description": "The household owns cultivable land.",
+                "condition": { "fact": "household.owns_cultivable_land", "op": "eq", "value": true }
+              }
+            ],
+            "exclusions": [
+              {
+                "id": "pmkisan.income_tax",
+                "description": "A family member paid income tax in the last assessment year.",
+                "condition": {
+                  "anyMember": {
+                    "fact": "member.paid_income_tax_last_ay",
+                    "op": "eq",
+                    "value": true
+                  }
+                }
+              },
+              {
+                "id": "pmkisan.pensioner",
+                "description": "A family member gets a monthly pension of Rs 10,000 or more and was not MTS / Class IV / Group D staff.",
+                "condition": {
+                  "anyMember": {
+                    "all": [
+                      { "fact": "member.monthly_pension", "op": "gte", "value": 10000 },
+                      {
+                        "not": {
+                          "fact": "member.pension_category",
+                          "op": "in",
+                          "value": ["MTS", "CLASS_IV", "GROUP_D"]
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ],
+            "supersededBy": null,
+            "benefits": [],
+            "source": {
+              "document": "PM-KISAN Operational Guidelines",
+              "section": "2.4",
+              "url": null
+            },
+            "notes": []
+          },
+          "checklist": {
+            "status": "AVAILABLE",
+            "items": [
+              { "id": "aadhaar", "label": "Aadhaar card" },
+              { "id": "bank_account", "label": "Aadhaar-seeded bank account" },
+              { "id": "land_record", "label": "Land record details" }
+            ]
+          },
+          "sources": [
+            {
+              "id": "6fa76b41-e0ed-4c71-810a-98555705371a",
+              "title": "PM-KISAN Operational Guidelines",
+              "section": "2.4",
+              "url": null,
+              "chunks": [
+                {
+                  "id": "4c2e8a7d-5b1f-4e3a-9d6c-8f0a1b2c3d4e",
+                  "text": "Section 2.4 exclusion criteria (project summary, replace with the official text): landholding farmer families with cultivable land are covered, but a family is excluded if any member paid income tax in the last assessment year, or if any member is a pensioner drawing a monthly pension of Rs 10,000 or more, except Multi Tasking Staff, Class IV and Group D employees."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "95c86d39-91d2-48c3-bec4-dbd746bc41fc",
+      "code": "IGNOAPS",
+      "name": "Indira Gandhi National Old Age Pension Scheme (IGNOAPS)",
+      "description": "Monthly central assistance for older people in BPL households.",
+      "versions": [
+        {
+          "id": "a429f165-89cb-4716-bc41-72aecec5a4d5",
+          "version": 1,
+          "status": "published",
+          "verifiedOn": "2026-11-01",
+          "verifiedBy": "seed-data",
+          "notes": "Central assistance only; states may add top-ups. Document checklist depends on the state.",
+          "rule": {
+            "requirements": [
+              {
+                "id": "ignoaps.age",
+                "description": "A household member is aged 60 or above.",
+                "condition": { "anyMember": { "fact": "member.age", "op": "gte", "value": 60 } }
+              },
+              {
+                "id": "ignoaps.bpl",
+                "description": "The household is listed as Below Poverty Line (BPL).",
+                "condition": { "fact": "household.bpl_status", "op": "eq", "value": true }
+              }
+            ],
+            "exclusions": [],
+            "supersededBy": null,
+            "benefits": [
+              {
+                "description": "Central assistance of Rs 200 per month (age 60-79).",
+                "condition": {
+                  "anyMember": {
+                    "all": [
+                      { "fact": "member.age", "op": "gte", "value": 60 },
+                      { "fact": "member.age", "op": "lt", "value": 80 }
+                    ]
+                  }
+                }
+              },
+              {
+                "description": "Central assistance of Rs 500 per month (age 80 and above).",
+                "condition": { "anyMember": { "fact": "member.age", "op": "gte", "value": 80 } }
+              }
+            ],
+            "source": {
+              "document": "National Social Assistance Programme (NSAP) guidelines - IGNOAPS",
+              "section": null,
+              "url": null
+            },
+            "notes": ["Central assistance only; state top-ups are not included."]
+          },
+          "checklist": { "status": "PENDING_STATE_VERIFICATION", "items": [] },
+          "sources": [
+            {
+              "id": "d761912c-e5ae-4a97-8d0f-02e4d82c4262",
+              "title": "National Social Assistance Programme (NSAP) guidelines - IGNOAPS",
+              "section": null,
+              "url": null,
+              "chunks": [
+                {
+                  "id": "5d3f9b8e-6c2a-4f4b-8e7d-9a1b2c3d4e5f",
+                  "text": "IGNOAPS (project summary, replace with the official text): persons aged 60 years or above belonging to a Below Poverty Line household receive central assistance of Rs 200 per month between ages 60 and 79 and Rs 500 per month from age 80. States may add their own top-up and set the document checklist."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "845cafa7-9ae7-49bf-ad1e-4cf11443690b",
+      "code": "PMMVY",
+      "name": "Pradhan Mantri Matru Vandana Yojana (PMMVY)",
+      "description": "Maternity benefit scheme. Rules not yet transcribed.",
+      "versions": [
+        {
+          "id": "ba35224c-70a0-489b-9282-a447d83100b3",
+          "version": 1,
+          "status": "draft",
+          "verifiedOn": null,
+          "verifiedBy": null,
+          "notes": "TODO: transcribe conditions from the official PMMVY guidelines and verify before publishing.",
+          "rule": {
+            "requirements": [],
+            "exclusions": [],
+            "supersededBy": null,
+            "benefits": [],
+            "source": {
+              "document": "TODO: official PMMVY guidelines",
+              "section": null,
+              "url": null
+            },
+            "notes": ["TODO: conditions not yet transcribed. Do not publish until verified."]
+          },
+          "checklist": { "status": "TODO", "items": [] },
+          "sources": []
+        }
+      ]
+    },
+    {
+      "id": "7bb0e2ff-4723-490d-9eb1-9be6fdcf7969",
+      "code": "IGNWPS",
+      "name": "Indira Gandhi National Widow Pension Scheme (IGNWPS)",
+      "description": "Widow pension under NSAP. Rules not yet transcribed.",
+      "versions": [
+        {
+          "id": "3e1c8193-a6d5-43c1-ba1f-d7aaccac9dd3",
+          "version": 1,
+          "status": "draft",
+          "verifiedOn": null,
+          "verifiedBy": null,
+          "notes": "TODO: transcribe conditions from the official NSAP guidelines and verify before publishing. Beneficiaries move to IGNOAPS at age 80.",
+          "rule": {
+            "requirements": [],
+            "exclusions": [],
+            "supersededBy": {
+              "schemeCode": "IGNOAPS",
+              "description": "From age 80 the pension is paid under IGNOAPS instead.",
+              "condition": { "anyMember": { "fact": "member.age", "op": "gte", "value": 80 } }
+            },
+            "benefits": [],
+            "source": {
+              "document": "TODO: official NSAP guidelines - IGNWPS",
+              "section": null,
+              "url": null
+            },
+            "notes": ["TODO: conditions not yet transcribed. Do not publish until verified."]
+          },
+          "checklist": { "status": "TODO", "items": [] },
+          "sources": []
+        }
+      ]
+    },
+    {
+      "id": "d7391c18-03ff-40c2-8ebe-3ffd5cb8a2dd",
+      "code": "IGNDPS",
+      "name": "Indira Gandhi National Disability Pension Scheme (IGNDPS)",
+      "description": "Disability pension under NSAP. Rules not yet transcribed.",
+      "versions": [
+        {
+          "id": "efd01ec2-ef08-4b66-b921-cbd3fbb1d8ce",
+          "version": 1,
+          "status": "draft",
+          "verifiedOn": null,
+          "verifiedBy": null,
+          "notes": "TODO: transcribe conditions from the official NSAP guidelines and verify before publishing.",
+          "rule": {
+            "requirements": [],
+            "exclusions": [],
+            "supersededBy": null,
+            "benefits": [],
+            "source": {
+              "document": "TODO: official NSAP guidelines - IGNDPS",
+              "section": null,
+              "url": null
+            },
+            "notes": ["TODO: conditions not yet transcribed. Do not publish until verified."]
+          },
+          "checklist": { "status": "TODO", "items": [] },
+          "sources": []
+        }
+      ]
+    },
+    {
+      "id": "a2e7ca58-0867-46ba-b78e-0bba66b2b019",
+      "code": "NFBS",
+      "name": "National Family Benefit Scheme (NFBS)",
+      "description": "One-time support after the death of a breadwinner. Rules not yet transcribed.",
+      "versions": [
+        {
+          "id": "9808d681-df09-41a4-bdb4-e20774267f0a",
+          "version": 1,
+          "status": "draft",
+          "verifiedOn": null,
+          "verifiedBy": null,
+          "notes": "TODO: transcribe conditions from the official NSAP guidelines and verify before publishing.",
+          "rule": {
+            "requirements": [],
+            "exclusions": [],
+            "supersededBy": null,
+            "benefits": [],
+            "source": {
+              "document": "TODO: official NSAP guidelines - NFBS",
+              "section": null,
+              "url": null
+            },
+            "notes": ["TODO: conditions not yet transcribed. Do not publish until verified."]
+          },
+          "checklist": { "status": "TODO", "items": [] },
+          "sources": []
+        }
+      ]
+    }
+  ]
+}

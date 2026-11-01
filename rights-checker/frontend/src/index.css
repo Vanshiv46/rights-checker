@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 18px base text on citizen screens. */
+html {
+  font-size: 112.5%;
+}
+
+body {
+  @apply bg-paper text-ink antialiased;
+}
+
+h1,
+h2,
+h3 {
+  @apply text-ink;
+}
+
+@layer components {
+  .focus-ring {
+    @apply focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-ink;
+  }
+  .btn {
+    @apply focus-ring inline-flex min-h-12 min-w-12 items-center justify-center gap-2 rounded-lg border-2 px-5 py-2 text-center text-base font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-primary {
+    @apply btn border-brand-dark bg-brand text-white hover:bg-brand-dark;
+  }
+  .btn-secondary {
+    @apply btn border-brand-dark bg-white text-brand-deep hover:bg-brand-tint;
+  }
+  .btn-danger {
+    @apply btn border-red-900 bg-red-800 text-white hover:bg-red-900;
+  }
+  /* Large answer buttons on the question screen. */
+  .btn-answer {
+    @apply btn min-h-14 w-full justify-start px-5 text-lg;
+  }
+  .link {
+    @apply focus-ring rounded font-semibold text-brand-deep underline underline-offset-4 hover:text-brand;
+  }
+  .card {
+    @apply rounded-xl border border-line bg-white p-4 shadow-sm sm:p-5;
+  }
+  .field {
+    @apply focus-ring min-h-12 w-full rounded-lg border-2 border-ink-soft/60 bg-white px-3 text-base;
+  }
+  .label {
+    @apply mb-1 block font-semibold;
+  }
+  .muted {
+    @apply text-ink-soft;
+  }
+  .eyebrow {
+    @apply text-sm font-semibold uppercase tracking-wide text-ink-soft;
+  }
+  .note {
+    @apply rounded-lg border-l-4 border-saffron bg-saffron-tint px-4 py-3;
+  }
+}
+
+@media print {
+  header,
+  footer,
+  nav,
+  .no-print {
+    display: none !important;
+  }
+}
